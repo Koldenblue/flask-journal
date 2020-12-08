@@ -1,0 +1,13 @@
+{
+  "name": "flask-journal",
+  "version": "1.0.0",
+  "description": "Journal with SQL, Flask, Python, JavaScript",
+  "main": "app.py",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon --exec flask run --ext py,js,json,html,css",
+    "watch-sass": "sass.bat --watch static/styles.scss static/css-output/output.css"
+  },
+  "author": "Kevin Miller",
+  "license": "MIT"
+}
