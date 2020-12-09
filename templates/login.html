@@ -5,23 +5,25 @@ Log In
 {% endblock %}
 
 {% block main %}
+<main class="container main-container">
 
-<div class="jumbotron text-center jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Welcome</h1>
-        <p class="lead">Hello!</p>
+    <div class="text-center jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4 jumbo-title">Welcome</h1>
+            <p class="lead">Hello!</p>
+        </div>
     </div>
-</div>
 
 
-<form action="/login" method="post">
-    <div class="form-group">
-        <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
-    </div>
-    <div class="form-group">
-        <input class="form-control" name="password" placeholder="Password" type="password">
-    </div>
-    <button class="btn btn-primary" type="submit">Log In</button>
-</form>
+    <form action="/login" method="post">
+        <div class="form-group login-form">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="form-group login-form">
+            <input class="form-control" name="password" placeholder="Password" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Log In</button>
+    </form>
 
+</main>
 {% endblock %}

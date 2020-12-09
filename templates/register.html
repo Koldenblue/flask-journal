@@ -5,9 +5,10 @@ Register
 {% endblock %}
 
 {% block main %}
+<main class="container main-container">
 
             <form action="/register" method="post">
-                <div class="form-group">
+                <div class="form-group login-form">
                     <input autocomplete="off" autofocus 
                         class="form-control" 
                         name="username" 
@@ -24,12 +25,12 @@ Register
                     >
                 </div> -->
                 <div class="form-group">
-                    <input class="form-control" name="password" placeholder="Password" type="password">
+                    <input class="form-control login-form" name="password" placeholder="Password" type="password">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" name="password-confirm" placeholder="Confirm Password" type="password">
+                    <input class="form-control login-form" name="password-confirm" placeholder="Confirm Password" type="password">
                 </div>
                 <button class="btn btn-danger" type="submit">Register</button>
             </form>
-
+</main>
 {% endblock %}

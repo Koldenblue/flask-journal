@@ -1,10 +1,64 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Journal Home
+Journal Home
 {% endblock %}
 
 {% block main %}
+<main class='container-fluid journal-container'>
+  <div class='row'>
+    <div class='col-md-2'>
+      <!-- Menu -->
+      <nav class="flex-column nav nav-menu">
+        <button id='new-entries-btn' class='menu-btn btn btn-success'>Make New Entries</button>
+        <button id='all-entries-btn' class='menu-btn btn btn-success'>View all Entries</button>
+      </nav>
+    </div>
 
+
+    <div class='col-md-10'>
+      <div class='row' id='mood-row'>
+        <div class='col-md-2'>
+          <p class='mood-btn'>mood
+            <span class="badge bg-secondary">9</span>
+          </p>
+        </div>
+      </div>
+
+      <div class='container'>
+        <div class='row'>
+          <div class='col-md-12'>
+            <form action="/journal" method="post">
+              <div class="input-group">
+                <span class="input-group-text" id='journal-desc'>My Journal Entry</span>
+                <textarea class="form-control" aria-label="my journal entry" rows=10></textarea>
+              </div>
+              <span class="input-group-text" id='mood-desc'>My mood for this entry:</span>
+
+              <select class="form-select" aria-label="Default select example">
+                <option defaultValue>Happy</option>
+                <option>Sad</option>
+                <option>Angry</option>
+                <option>Surprised</option>
+                <option>Frustrated</option>
+                <option>Embarrassed</option>
+                <option>Grumpy</option>
+                <option>Excited</option>
+                <option>Anxious</option>
+                <option>Confused</option>
+              </select>
+              <div class='btn-container'>
+                <button class='btn-primary btn' id='save-btn'>
+                  Save Journal Entry
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
 {% endblock %}

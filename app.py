@@ -34,7 +34,7 @@ engine = create_engine("sqlite+pysqlite:///journal.db", echo=True, future=True)
 
 @app.route('/')
 #decorator defined in helpers.py
-@login_required
+# @login_required
 def index():
     return render_template('index.html')
 
