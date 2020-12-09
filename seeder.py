@@ -17,5 +17,6 @@ with engine.connect() as conn:
     conn.execute(text("CREATE TABLE 'entries' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
         + " 'username' TEXT NOT NULL,"
         + " 'entry' TEXT,"
-        + " 'mood' TEXT)"))
+        + " 'mood' TEXT,"
+        + " 'date' DATE)"))
     conn.commit()

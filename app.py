@@ -48,12 +48,15 @@ def journal():
         entry = request.form.get('journal-entry')
         mood = request.form.get('mood-select').lower()
         date = datetime.now()
+        username = session['username']
         print(date)
         print(entry)
         if entry.strip() == '':
             flash("The journal entry is empty!")
         with alcSession(engine) as conn:
-            statement = text("INSERT INTO reg")
+            statement = text("INSERT INTO entries (username, entry, mood, date) VALUES (:username, :entry, :mood, :date);").bindparams(username = username, entry = entry, mood = mood, date = date)
+            conn.execute(statement)
+            conn.commit()
             return render_template('index.html')
 
 
