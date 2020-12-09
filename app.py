@@ -39,6 +39,26 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/journal', methods=["GET", "POST"])
+def journal():
+    if request.method == "GET":
+        return redirect('/')
+    else:
+        print("posted")
+        entry = request.form.get('journal-entry')
+        mood = request.form.get('mood-select').lower()
+        date = datetime.now()
+        print(date)
+        print(entry)
+        if entry.strip() == '':
+            flash("The journal entry is empty!")
+        with alcSession(engine) as conn:
+            statement = text("INSERT INTO reg")
+            return render_template('index.html')
+
+
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
