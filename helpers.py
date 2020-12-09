@@ -39,6 +39,7 @@ def lookup(symbol):
 
     # Contact API
     try:
+        # can get with "export API_KEY=value" in terminal
         api_key = os.environ.get("API_KEY")
         response = requests.get(f"https://cloud-sse.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
         response.raise_for_status()
@@ -57,9 +58,4 @@ def lookup(symbol):
     except (KeyError, TypeError, ValueError):
         # print('error')
         return None
-
-
-def usd(value):
-    """Format value as USD."""
-    return f"${value:,.2f}"
 
