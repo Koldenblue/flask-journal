@@ -14,10 +14,10 @@ All Journal Entries
       </nav>
     </div>
 
-    <div class='col-md-10'>
+    <div class='all-entries-container col-md-10'>
 
       {% for entry in entries %}
-      <div class='container entries-container'>
+      <div class='container entries-container' id='container-{{ entry.id }}'>
         <div class='row'>
           <div class='col-md-2'>
             <div class='mood-entry'>
@@ -32,7 +32,7 @@ All Journal Entries
           </div>
 
           <div class='col-md-2'>
-            <button class='del-btn btn btn-warning'>Delete</button>
+            <button class='del-btn btn btn-warning' id='{{ entry.id }}'>Delete</button>
           </div>
         </div>
       </div>

@@ -37,8 +37,8 @@ engine = create_engine("sqlite+pysqlite:///journal.db", echo=True, future=True)
 # @login_required
 def index():
     with alcSession(engine) as conn:
-        statement = text("SELECT mood FROM entries WHERE username = '1'")
-        # statement = text("SELECT mood FROM entries WHERE username = :username").bindparams(username = session['username'])
+        statement = text("SELECT mood FROM entries WHERE username = '1'")  # for easy testing, using username '1'
+        # statement = text("SELECT mood FROM entries WHERE username = :username").bindparams(username = session['username']) 
         rows = conn.execute(statement)
         rows = rows.all()
         print(rows)
@@ -50,15 +50,27 @@ def index():
             print(total_moods)
     return render_template('index.html', moods=total_moods)
 
-@app.route('/allentries')
+@app.route('/allentries', methods=["GET", "DELETE"])
 def all_entries():
-    with alcSession(engine) as conn:
-        # statement = text("SELECT entry, mood, date FROM entries WHERE username = :username ORDER BY date DESC").bindparams(username = session['username'])
-        statement = text("SELECT entry, mood, fDate FROM entries WHERE username = '1' ORDER BY date DESC")
-        rows = conn.execute(statement)
-        rows = rows.all()
-        print(rows)
-        return render_template('allentries.html', entries = rows)
+    if request.method == "GET":
+        with alcSession(engine) as conn:
+            # statement = text("SELECT id, entry, mood, fDate FROM entries WHERE username = :username ORDER BY date DESC").bindparams(username = session['username'])
+            statement = text("SELECT id, entry, mood, fDate FROM entries WHERE username = '1' ORDER BY date DESC") # for easy testing, using username '1'
+            rows = conn.execute(statement)
+            rows = rows.all()
+            print(rows)
+            return render_template('allentries.html', entries = rows)
+    # delete request:
+    else:
+        # get the id of the entry to be deleted - the id is on the del button
+        id = request.args['id']
+        with alcSession(engine) as conn:
+            statement = text("DELETE FROM entries WHERE id = :id").bindparams(id = id)
+            conn.execute(statement)
+            conn.commit()
+
+
+            return render_template('allentries.html')
 
 
 @app.route('/journal', methods=["GET", "POST"])
@@ -71,11 +83,13 @@ def journal():
         mood = request.form.get('mood-select').lower()
         date = datetime.now()
         fDate = date.strftime("%a %B %d, %Y")
-        username = session['username']
+        # username = session['username']
         if entry.strip() == '':
             flash("The journal entry is empty!")
         with alcSession(engine) as conn:
-            statement = text("INSERT INTO entries (username, entry, mood, date, fDate) VALUES (:username, :entry, :mood, :date, :fDate);").bindparams(username = username, entry = entry, mood = mood, date = date, fDate = fDate)
+            # statement = text("INSERT INTO entries (username, entry, mood, date, fDate) VALUES (:username, :entry, :mood, :date, :fDate);").bindparams(username = username, entry = entry, mood = mood, date = date, fDate = fDate)
+            # for dev testing, username '1':
+            statement = text("INSERT INTO entries (username, entry, mood, date, fDate) VALUES (:username, :entry, :mood, :date, :fDate);").bindparams(username = 1, entry = entry, mood = mood, date = date, fDate = fDate)
             conn.execute(statement)
             conn.commit()
             return redirect('/')
