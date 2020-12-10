@@ -50,23 +50,32 @@ def index():
             print(total_moods)
     return render_template('index.html', moods=total_moods)
 
+@app.route('/allentries')
+def all_entries():
+    with alcSession(engine) as conn:
+        # statement = text("SELECT entry, mood, date FROM entries WHERE username = :username ORDER BY date DESC").bindparams(username = session['username'])
+        statement = text("SELECT entry, mood, fDate FROM entries WHERE username = '1' ORDER BY date DESC")
+        rows = conn.execute(statement)
+        rows = rows.all()
+        print(rows)
+        return render_template('allentries.html', entries = rows)
+
 
 @app.route('/journal', methods=["GET", "POST"])
 def journal():
     if request.method == "GET":
         return redirect('/')
     else:
-        print("posted")
+        # get data from form and post to database
         entry = request.form.get('journal-entry')
         mood = request.form.get('mood-select').lower()
         date = datetime.now()
+        fDate = date.strftime("%a %B %d, %Y")
         username = session['username']
-        print(date)
-        print(entry)
         if entry.strip() == '':
             flash("The journal entry is empty!")
         with alcSession(engine) as conn:
-            statement = text("INSERT INTO entries (username, entry, mood, date) VALUES (:username, :entry, :mood, :date);").bindparams(username = username, entry = entry, mood = mood, date = date)
+            statement = text("INSERT INTO entries (username, entry, mood, date, fDate) VALUES (:username, :entry, :mood, :date, :fDate);").bindparams(username = username, entry = entry, mood = mood, date = date, fDate = fDate)
             conn.execute(statement)
             conn.commit()
             return redirect('/')

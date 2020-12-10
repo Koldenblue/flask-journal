@@ -18,5 +18,6 @@ with engine.connect() as conn:
         + " 'username' TEXT NOT NULL,"
         + " 'entry' TEXT,"
         + " 'mood' TEXT,"
-        + " 'date' DATE)"))
+        + " 'date' DATE,"
+        + " 'fDate' TEXT)"))    # formatted date
     conn.commit()

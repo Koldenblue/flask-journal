@@ -1,21 +1,12 @@
 $(document).ready(() => {
-  const journalForm = $("#journal-form")
+  const allEntriesBtn = $("#all-entries-btn");
+  const newEntriesBtn = $("#new-entries-btn");
 
-  // journalForm.on('submit', (event) => {
-  //   event.preventDefault();
-  //   console.log("submitted")
-  //   let queryUrl = '/journal?textarea'
-  //   $.ajax({
-  //     url: '/journal',
-  //     method: 'POST',
-  //     data: {
-  //       entry: 'aaaaaa',
-  //       mood: 'badfsasfdfads'
-  //     }
-  //   }).then(function(res) {
-  //     console.log(res)
-  //   })
-  // })
+  allEntriesBtn.on('click', () => {
+    window.location.href = '/allentries'
+  })
 
-
+  newEntriesBtn.on('click', () => {
+    window.location.href = '/'
+  })
 })

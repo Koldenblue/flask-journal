@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+All Journal Entries
+{% endblock %}
+
+{% block main %}
+<main class='container-fluid journal-container'>
+  <div class='row'>
+    <div class='col-md-2'>
+      <!-- Menu -->
+      <nav class="flex-column nav nav-menu">
+        <button id='new-entries-btn' class='menu-btn btn btn-success'>Make New Entries</button>
+      </nav>
+    </div>
+
+    <div class='col-md-10'>
+
+      {% for entry in entries %}
+      <div class='container entries-container'>
+        <div class='row'>
+          <div class='col-md-2'>
+            <div class='mood-entry'>
+              {{ entry.mood }}
+            </div>
+          </div>
+          <div class='date-entry col-md-2'>
+            {{entry.fDate}}
+          </div>
+          <div class='journal-entry col-md-6'>
+            {{ entry.entry }}
+          </div>
+
+          <div class='col-md-2'>
+            <button class='del-btn btn btn-warning'>Delete</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
+</main>
+
+{% endblock %}

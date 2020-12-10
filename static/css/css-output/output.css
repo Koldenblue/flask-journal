@@ -83,4 +83,19 @@ main img {
   border-radius: 8px;
 }
 
+.mood-entry {
+  background-color: darkkhaki;
+  border-radius: 9px;
+  padding: 0.5em;
+}
+
+.entries-container {
+  background-color: cornsilk;
+  border-width: 4px;
+  border-radius: 9px;
+  border-color: chocolate;
+  border-style: dotted;
+  margin: 1em;
+}
+
 /*# sourceMappingURL=output.css.map */
