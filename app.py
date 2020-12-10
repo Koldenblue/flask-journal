@@ -32,7 +32,7 @@ Session(app)
 engine = create_engine("sqlite+pysqlite:///journal.db", echo=True, future=True)
 
 @app.route('/update', methods=["GET", "POST"])
-# @login_required
+@login_required
 def update():
     if request.method == "GET" and not request.args:
         return redirect('/')
@@ -43,8 +43,8 @@ def update():
                 newentry = request.form.get('journal-entry')
                 newmood = request.form.get('mood-select')
                 id = request.args['id']
-                # statement = text("UPDATE entries SET entry, mood WHERE id = :id AND username = :username").bindparams(id = id, username = session['username'])
-                statement = text("UPDATE entries SET entry = :newentry, mood = :newmood WHERE id = :id AND username = :username").bindparams(id = id, username = '1', newentry = newentry, newmood = newmood)
+                statement = text("UPDATE entries SET entry = :newentry, mood = :newmood WHERE id = :id AND username = :username").bindparams(id = id, username = session['username'], newentry = newentry, newmood = newmood)
+                # statement = text("UPDATE entries SET entry = :newentry, mood = :newmood WHERE id = :id AND username = :username").bindparams(id = id, username = '1', newentry = newentry, newmood = newmood)
                 conn.execute(statement)
                 conn.commit()
                 return redirect('/')
@@ -56,8 +56,8 @@ def update():
         print(request.method)
         with alcSession(engine) as conn:
             # Get mood totals:
-            statement = text("SELECT mood FROM entries WHERE username = '1'")  # for easy testing, using username '1'
-            # statement = text("SELECT mood FROM entries WHERE username = :username").bindparams(username = session['username']) 
+            # statement = text("SELECT mood FROM entries WHERE username = '1'")  # for easy testing, using username '1'
+            statement = text("SELECT mood FROM entries WHERE username = :username").bindparams(username = session['username']) 
             rows = conn.execute(statement)
             rows = rows.all()
             total_moods = {}
@@ -76,11 +76,11 @@ def update():
 
 @app.route('/')
 #decorator defined in helpers.py
-# @login_required
+@login_required
 def index():
     with alcSession(engine) as conn:
-        statement = text("SELECT mood FROM entries WHERE username = '1'")  # for easy testing, using username '1'
-        # statement = text("SELECT mood FROM entries WHERE username = :username").bindparams(username = session['username']) 
+        # statement = text("SELECT mood FROM entries WHERE username = '1'")  # for easy testing, using username '1'
+        statement = text("SELECT mood FROM entries WHERE username = :username").bindparams(username = session['username']) 
         rows = conn.execute(statement)
         rows = rows.all()
         total_moods = {}
@@ -94,8 +94,8 @@ def index():
 def all_entries():
     if request.method == "GET":
         with alcSession(engine) as conn:
-            # statement = text("SELECT id, entry, mood, fDate FROM entries WHERE username = :username ORDER BY date DESC").bindparams(username = session['username'])
-            statement = text("SELECT id, entry, mood, fDate FROM entries WHERE username = '1' ORDER BY date DESC") # for easy testing, using username '1'
+            statement = text("SELECT id, entry, mood, fDate FROM entries WHERE username = :username ORDER BY date DESC").bindparams(username = session['username'])
+            # statement = text("SELECT id, entry, mood, fDate FROM entries WHERE username = '1' ORDER BY date DESC") # for easy testing, using username '1'
             rows = conn.execute(statement)
             rows = rows.all()
             print(rows)
@@ -123,14 +123,13 @@ def journal():
         mood = request.form.get('mood-select').lower()
         date = datetime.now()
         fDate = date.strftime("%a %B %d, %Y")
-        # username = session['username']
         if entry.strip() == '':
             flash("The journal entry is empty!")
             return redirect('/')
         with alcSession(engine) as conn:
-            # statement = text("INSERT INTO entries (username, entry, mood, date, fDate) VALUES (:username, :entry, :mood, :date, :fDate);").bindparams(username = username, entry = entry, mood = mood, date = date, fDate = fDate)
+            statement = text("INSERT INTO entries (username, entry, mood, date, fDate) VALUES (:username, :entry, :mood, :date, :fDate);").bindparams(username = session['username'], entry = entry, mood = mood, date = date, fDate = fDate)
             # for dev testing, username '1':
-            statement = text("INSERT INTO entries (username, entry, mood, date, fDate) VALUES (:username, :entry, :mood, :date, :fDate);").bindparams(username = 1, entry = entry, mood = mood, date = date, fDate = fDate)
+            # statement = text("INSERT INTO entries (username, entry, mood, date, fDate) VALUES (:username, :entry, :mood, :date, :fDate);").bindparams(username = 1, entry = entry, mood = mood, date = date, fDate = fDate)
             conn.execute(statement)
             conn.commit()
             return redirect('/')
