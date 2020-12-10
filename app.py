@@ -31,6 +31,38 @@ Session(app)
 
 engine = create_engine("sqlite+pysqlite:///journal.db", echo=True, future=True)
 
+@app.route('/update', methods=["GET", "PUT"])
+# @login_required
+def update():
+    if request.method == "GET" and not request.args:
+        return redirect('/')
+    elif request.method == "GET":
+        with alcSession(engine) as conn:
+            # Get mood totals:
+            statement = text("SELECT mood FROM entries WHERE username = '1'")  # for easy testing, using username '1'
+            # statement = text("SELECT mood FROM entries WHERE username = :username").bindparams(username = session['username']) 
+            rows = conn.execute(statement)
+            rows = rows.all()
+            print(rows)
+            total_moods = {}
+            for row in rows:
+                print(row[0])
+                total_moods.setdefault(row[0], 0)
+                total_moods[row[0]] += 1
+                print(total_moods)
+            # next get the entry that needs to be updated
+            statement = text("SELECT entry, mood FROM entries WHERE id = :id;").bindparams(id = request.args['id'])
+            rows = conn.execute(statement)
+            rows = rows.all()
+            print(rows)
+            entry = rows
+            print(entry[0].entry)
+            return render_template('update.html', moods=total_moods, entry=entry)
+    # For submitting an update to an entry
+    else:
+        pass
+
+
 
 @app.route('/')
 #decorator defined in helpers.py
@@ -49,6 +81,7 @@ def index():
             total_moods[row[0]] += 1
             print(total_moods)
     return render_template('index.html', moods=total_moods)
+
 
 @app.route('/allentries', methods=["GET", "DELETE"])
 def all_entries():
