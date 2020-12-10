@@ -44,16 +44,18 @@ $(document).ready(() => {
 
 
   if (window.location.pathname === "/update") {
-    console.log(moodSelect)
-    console.log(moodSelect[0].dataset.value)
-    console.log(moodSelect[0].selectedIndex)
-    console.log(moodSelect[0].children[1].selected)
-    console.log(moodSelect[0].children[1].innerText)
-    let targetMood = moodSelect[0].dataset.value;
-    for (let i = 0, j = moodSelect[0].children.length; i < j; i++) {
-      if (moodSelect[0].children[i].innerText.toLowerCase() === targetMood) {
-        moodSelect[0].children[i].selected = true;
+    try {
+      if (moodSelect[0]) {
+        let targetMood = moodSelect[0].dataset.value;
+        for (let i = 0, j = moodSelect[0].children.length; i < j; i++) {
+          if (moodSelect[0].children[i].innerText.toLowerCase() === targetMood) {
+            moodSelect[0].children[i].selected = true;
+          }
+        }
       }
+    }
+    catch (err) {
+      console.error(err)
     }
   }
 })
