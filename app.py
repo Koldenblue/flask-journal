@@ -36,7 +36,19 @@ engine = create_engine("sqlite+pysqlite:///journal.db", echo=True, future=True)
 #decorator defined in helpers.py
 # @login_required
 def index():
-    return render_template('index.html')
+    with alcSession(engine) as conn:
+        statement = text("SELECT mood FROM entries WHERE username = '1'")
+        # statement = text("SELECT mood FROM entries WHERE username = :username").bindparams(username = session['username'])
+        rows = conn.execute(statement)
+        rows = rows.all()
+        print(rows)
+        total_moods = {}
+        for row in rows:
+            print(row[0])
+            total_moods.setdefault(row[0], 0)
+            total_moods[row[0]] += 1
+            print(total_moods)
+    return render_template('index.html', moods=total_moods)
 
 
 @app.route('/journal', methods=["GET", "POST"])
@@ -57,8 +69,7 @@ def journal():
             statement = text("INSERT INTO entries (username, entry, mood, date) VALUES (:username, :entry, :mood, :date);").bindparams(username = username, entry = entry, mood = mood, date = date)
             conn.execute(statement)
             conn.commit()
-            return render_template('index.html')
-
+            return redirect('/')
 
 
 

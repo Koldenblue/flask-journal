@@ -18,11 +18,13 @@ Journal Home
 
     <div class='col-md-10'>
       <div class='row' id='mood-row'>
+        {% for mood, num in moods.items() %}
         <div class='col-md-2'>
-          <p class='mood-btn'>mood
-            <span class="badge bg-secondary">9</span>
+          <p class='mood-btn'>{{ mood }}
+            <span class="badge bg-secondary">{{ num }}</span>
           </p>
         </div>
+        {% endfor %}
       </div>
 
       <div class='container'>
