@@ -1,7 +1,8 @@
 import os
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from sqlalchemy import create_engine, text, select
-# make sure that these variables don't conflict
+# make sure that these Session variables don't conflict
+# Version 1.4 of SQLAlchemy is required!
 from sqlalchemy.orm import Session as alcSession
 from flask_session import Session
 from helpers import apology, login_required, lookup
