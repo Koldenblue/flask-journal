@@ -11,7 +11,7 @@
 5. <a href="#license">License</a>
 6. <a href="#questions">Issues and Questions</a>
 <hr><h3 id='description'>Description</h3>
-This app allows users to log in and keep a journal of writings and moods. Users may view all entries sorted by date, update entries, or delete entries. The app has been designed with HTML/CSS, with vanilla JavaScript and jQuery providing some interactivity. Python/Flask are used for back-end routing functions, with Jinja providing HTML templating. User authentication state is also tracked through Flask. Journal entries are recorded in a SQL database, which is interfaced with using the SQLAlchemy ORM for Python.
+Especially in the current state of the world, mental health is more important than ever. Part of self-care includes being able to reflect upon and write down thoughts. This app allows users to log in and keep a journal of writings and moods. Users may view all entries sorted by date, update entries, or delete entries. The app has been designed with HTML/CSS, with vanilla JavaScript and jQuery providing some interactivity. Python/Flask are used for back-end routing functions, with Jinja providing HTML templating. User authentication state is also tracked through Flask. Journal entries are recorded in a SQL database, which is interfaced with using the SQLAlchemy ORM for Python.
 
 ![image](https://user-images.githubusercontent.com/64618290/101844700-e81aab00-3b01-11eb-91dd-49f5a1b6fdc1.png)
 
